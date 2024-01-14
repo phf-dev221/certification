@@ -131,6 +131,27 @@ class AuthController extends Controller
         }
     }
 
+    public function update(Request $request, User $user)
+{
+    try {
+        $user->update([
+            'name' => $request->input('name'),
+            'firstName' => $request->input('firstName'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+        ]);
+
+        return response()->json([
+            'status_code' => 200,
+            'status_message' => 'Informations utilisateur mises à jour avec succès',
+            'user' => $user,
+        ]);
+    } catch (Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
+
     public function archive(User $user)
     {
         try {

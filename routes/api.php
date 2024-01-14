@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 /*routes pour es utilisateurs*/
 
 Route::post('register', [AuthController::class, 'register']);
+Route::put('users/{user}/update', [AuthController::class, 'update']);
 Route::get('users/index', [AuthController::class, 'index']);
 Route::put('{user}/archive', [AuthController::class, 'archive']);
 Route::get('users/archives', [AuthController::class, 'userArchive']);
