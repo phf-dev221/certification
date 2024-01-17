@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|regex:/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/',
-            'firstName'=>'required|regex:/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/',
-            'email'=>'required|unique:users,email|email',
-            'password'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
-            'confirmPassword'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
-            'phone' =>'required|regex:/^7[0-9]{8}$/|unique:users,phone',
+            'name'=>'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/',
+            'firstName'=>'regex:/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/',
+            'email'=>'unique:users,email|email',
+            // 'password'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
+            // 'confirmPassword'=>'required|regex:/^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(.{8,})$/',
+            'phone' =>'regex:/^7[0-9]{8}$/|unique:users,phone',
         ];
     }
 
@@ -45,18 +45,14 @@ class RegisterUserRequest extends FormRequest
 
     public function messages(){
         return [
-            'name.required'=>'le nom est requis',
-            'firstName.regex'=>'format du prénom incorrect',
+
+
             'name.regex'=>'format du nom incorrect',
-            'firstName.required'=>'le prénom est requis',
-            'email.required'=>'l\'email est requis',
+            'firstName.regex'=>'format du prénom incorrect',
             'email.unique'=>'l\'email existe déja',
             'email.email'=>"format email incorrect",
-            'password.required'=>'le mot de passe est requis',
-            'confirmPassword.required'=>'la confirmation du mot de passe est requis',
             'password.regex'=>"le mot de passe doit contenir au moins 8 caractéres avec un chiffre, une lettre et un caractére spécial",
             'confirmPassword.regex'=>"le mot de passe de confirmation doit contenir au moins 8 caractéres avec un chiffre, une lettre et un caractére spécial",
-            'phone.required'=>'le numéro de téléphone est requis',
             'phone.unique'=>'le numéro telephone est deja utilisé',
             'phone.regex'=>'le format du numéro est incorrect',
 

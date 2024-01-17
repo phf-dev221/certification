@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BienController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -18,11 +19,22 @@ use App\Http\Controllers\API\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+/*routes pour les biens trouves*/
+Route::post('biens/store', [BienController::class, 'store']);
+Route::get('biens/index', [BienController::class, 'index']);
+Route::get('biens/{bien}/show', [BienController::class, 'show']);
+Route::post('biens/{bien}/update', [BienController::class, 'update']);
+Route::delete('biens/{bien}/destroy', [BienController::class, 'destroy']);
+Route::post('biens/{bien}/accepte', [BienController::class, 'acceptBien']);
+Route::post('biens/{bien}/refuse', [BienController::class, 'refuseBien']);
+
+
+
 
 /*routes pour es utilisateurs*/
 
 Route::post('register', [AuthController::class, 'register']);
-Route::put('users/{user}/update', [AuthController::class, 'update']);
+Route::post('users/{user}/update', [AuthController::class, 'update']);
 Route::get('users/index', [AuthController::class, 'index']);
 Route::put('{user}/archive', [AuthController::class, 'archive']);
 Route::get('users/archives', [AuthController::class, 'userArchive']);

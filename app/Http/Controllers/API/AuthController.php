@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 
 class AuthController extends Controller
@@ -19,7 +20,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'index']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'index', 'update']]);
     }
 
     public function index()
@@ -117,7 +118,7 @@ class AuthController extends Controller
             $user->firstName = $request->firstName;
             $user->phone = $request->phone;
             $user->email = $request->email;
-            // $user->role_id = $request->role_id;
+            $user->role_id = 1;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -131,25 +132,21 @@ class AuthController extends Controller
         }
     }
 
-    public function update(Request $request, User $user)
-{
-    try {
-        $user->update([
-            'name' => $request->input('name'),
-            'firstName' => $request->input('firstName'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-        ]);
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        try {
+            $user->update($request->only(['name', 'firstName', 'phone', 'email']));
 
-        return response()->json([
-            'status_code' => 200,
-            'status_message' => 'Informations utilisateur mises à jour avec succès',
-            'user' => $user,
-        ]);
-    } catch (Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'status_code' => 200,
+                'status_message' => 'Informations utilisateur mises à jour avec succès',
+                'user' => $user,
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-}
+
 
 
     public function archive(User $user)
