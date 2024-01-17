@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Bien;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -20,6 +21,7 @@ class CreateChatifyMessagesTable extends Migration
             $table->string('body',5000)->nullable();
             $table->string('attachment')->nullable();
             $table->boolean('seen')->default(false);
+            $table->foreignIdFor(Bien::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

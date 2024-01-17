@@ -2,6 +2,7 @@
 
 namespace Chatify\Http\Controllers\Api;
 
+use App\Models\Bien;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
@@ -91,7 +92,7 @@ class MessagesController extends Controller
      * @param Request $request
      * @return JSON response
      */
-    public function send(Request $request)
+    public function send(Request $request, Bien $bien)
     {
         // default variables
         $error = (object)[
@@ -138,6 +139,7 @@ class MessagesController extends Controller
                     'new_name' => $attachment,
                     'old_name' => htmlentities(trim($attachment_title), ENT_QUOTES, 'UTF-8'),
                 ]) : null,
+                'bien_id'=>$bien
             ]);
 
             // fetch message to send it with the response
